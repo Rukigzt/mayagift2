@@ -1,0 +1,341 @@
+/* ===========================
+   RESET & BASE
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    /* Previene el rebote en navegadores móviles */
+    overscroll-behavior: none; 
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(180deg, #ffd6e8, #ffeef8, #f8edff);
+    position: relative;
+    color: #555;
+}
+
+/* ===========================
+   PARTÍCULAS (EFECTO LLUVIA)
+=========================== */
+
+#petals, #hearts, #stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Unificamos rosas y corazones para que funcionen como lluvia */
+.petal, .heart {
+    position: fixed; /* 'fixed' garantiza que recorran toda la pantalla del celular */
+    top: -60px; /* Empiezan escondidos justo arriba del borde superior */
+    user-select: none;
+    pointer-events: none; /* Para que no estorben si ella toca la pantalla */
+    z-index: 1;
+}
+
+.petal {
+    opacity: 0.9;
+    animation: rain linear forwards;
+}
+
+.heart {
+    color: #ff77a8;
+    opacity: 0.7;
+    animation: rain linear forwards;
+}
+
+.star {
+    position: absolute;
+    color: white;
+    animation: twinkle 2s infinite;
+    user-select: none;
+}
+
+/* ===========================
+   ANIMACIÓN DE LLUVIA
+=========================== */
+
+/* Reemplaza la animación 'fall' y borra 'floatHeart', usaremos esta nueva: */
+@keyframes rain {
+    0% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0; /* Aparecen suavemente */
+    }
+    10% {
+        opacity: 1;
+    }
+    100% { 
+        /* Caen hasta el fondo (110vh) girando suavemente */
+        transform: translateY(110vh) rotate(360deg); 
+        opacity: 0; /* Desaparecen suavemente al final */
+    }
+}
+
+/* ===========================
+   PANTALLAS
+=========================== */
+.screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+    animation: fade 0.8s;
+}
+
+/* ===========================
+   CONTENEDORES (GLASS & PAPER)
+=========================== */
+.glass {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 30px 25px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrado perfecto */
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.paper {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 25px;
+    padding: 30px 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===========================
+   TEXTOS Y CONTENIDO
+=========================== */
+.glass h1 {
+    font-family: 'Pacifico', cursive;
+    color: #ff6c9e;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.glass h2 {
+    color: #ff5c95;
+    margin: 15px 0;
+}
+
+.glass p {
+    margin: 10px 0;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.paper h2 {
+    color: #ff6699;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* El área de texto con scroll para que no rompa el diseño móvil */
+.scrollable-text {
+    width: 100%;
+    max-height: 50vh; /* Altura máxima dinámica */
+    overflow-y: auto; /* Activa el scroll si es necesario */
+    padding-right: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo para la barrita de scroll */
+.scrollable-text::-webkit-scrollbar {
+    width: 5px;
+}
+.scrollable-text::-webkit-scrollbar-thumb {
+    background: #ffc2d9;
+    border-radius: 10px;
+}
+
+.scrollable-text p {
+    line-height: 1.8;
+    font-size: 1rem;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+/* ===========================
+   SANRIO IMAGES
+=========================== */
+.sanrio-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.sanrio-container img {
+    height: 150px;
+    animation: bounce 3s infinite ease-in-out;
+}
+.sanrio-container img:nth-child(2) { animation-delay: 1s; }
+.sanrio-container img:nth-child(3) { animation-delay: 2s; }
+
+/* ===========================
+   BOTONES
+=========================== */
+button {
+    border: none;
+    border-radius: 999px;
+    background: #ff79aa;
+    color: white;
+    padding: 15px 30px;
+    margin-top: 15px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(255, 105, 150, 0.3);
+    font-family: 'Quicksand', sans-serif;
+    width: 80%; /* Botones anchos para fácil tacto */
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+#musicBtn {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border-radius: 50%;
+    z-index: 500;
+    font-size: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===========================
+   EL SOBRE (EFECTO REALISTA MÓVIL)
+=========================== */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.container h2 {
+    margin-bottom: 30px;
+    color: #ff6699;
+}
+
+#envelope {
+    width: 280px;
+    height: 180px;
+    background: #f0a8c2; /* Fondo interno oscuro que simula sombra y profundidad */
+    position: relative;
+    border-radius: 0 0 10px 10px;
+    cursor: pointer;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transition: 0.5s;
+}
+
+#envelope:hover { 
+    transform: scale(1.03); 
+}
+
+/* 1. Solapa superior (Triángulo que tapa la carta al inicio) */
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffc2d9;
+    clip-path: polygon(0 0, 50% 60%, 100% 0);
+    transform-origin: top;
+    transition: 0.5s ease-in-out;
+    z-index: 4; /* Se sitúa arriba de todo para mantener el sobre cerrado */
+}
+
+/* 2. Bolsillo frontal (Cuerpo del sobre que contiene la carta) */
+.pocket {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffc2d9;
+    /* Mismo recorte para que encaje milimétricamente con la solapa */
+    clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 100%, 0 100%);
+    z-index: 3; /* Por encima de la carta, pero debajo de la solapa */
+    border-radius: 0 0 10px 10px;
+}
+
+/* 3. La carta física guardada dentro */
+.letter-inside {
+    position: absolute;
+    left: 8%;
+    bottom: 5%;
+    width: 84%;
+    height: 85%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    z-index: 2; /* Capa intermedia (atrapada entre el fondo y el bolsillo frontal) */
+    /* Transición suave con un sutil efecto de rebote al salir */
+    transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ===========================
+   ANIMACIONES AL ACTIVAR (.open)
+=========================== */
+
+/* La solapa rota hacia arriba simulando abrirse */
+.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1; /* Se pasa al fondo para que no tape la carta cuando esta suba */
+}
+
+/* La carta se desliza hacia arriba saliendo del bolsillo frontal */
+.open .letter-inside {
+    transform: translateY(-95px);
+    transition-delay: 0.35s; /* Espera exacta a que la solapa esté abierta a la mitad */
+}
+
+
+/* ===========================
+   RESPONSIVE CANVAS CONFETTI
+=========================== */
+canvas#confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
